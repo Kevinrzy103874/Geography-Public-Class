@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>跨国牛奶侦探所 | 欧洲西部自然环境 · 沉浸式探究课堂</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f3df 0%, #d4e2c4 100%);
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 24px 20px;
+            color: #1e3a2f;
+        }
+
+        /* 侦探风格容器 */
+        .case-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fffff7;
+            border-radius: 56px;
+            box-shadow: 0 30px 50px rgba(30, 40, 10, 0.2);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(150, 190, 100, 0.5);
+        }
+
+        /* 头部侦探所 */
+        .detective-header {
+            background: #2c4827;
+            padding: 24px 32px;
+            color: #ffefcf;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #eab354;
+        }
+        .title-badge h1 {
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .title-badge h1 i {
+            color: #f5bc70;
+        }
+        .case-number {
+            background: #00000055;
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-family: monospace;
+        }
+        .subtitle {
+            margin-top: 6px;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        /* 主内容 */
+        .main-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            padding: 30px 32px;
+        }
+        .evidence-map {
+            flex: 1.3;
+            min-width: 280px;
+            background: #faf9ef;
+            border-radius: 32px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            padding: 16px;
+        }
+        .clue-board {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .clue-card {
+            background: #fffef5;
+            border-radius: 28px;
+            border-left: 8px solid #e3b87c;
+            box-shadow: 0 8px 18px rgba(70, 50, 20, 0.08);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .clue-card:hover {
+            transform: translateY(-5px);
+        }
+        .clue-header {
+            background: #faf1df;
+            padding: 16px 22px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            border-bottom: 2px dotted #cbae86;
+        }
+        .clue-body {
+            padding: 18px 22px;
+        }
+        .question-mark {
+            background: #efe3cd;
+            border-radius: 40px;
+            padding: 12px 18px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .btn-detective {
+            background: #d9c49b;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 5px 8px 5px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-detective:hover {
+            background: #bfa06a;
+            color: white;
+        }
+        .answer-panel {
+            background: #f4f0e2;
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-top: 16px;
+            display: none;
+            border: 1px solid #e2d3b0;
+        }
+        .show {
+            display: block;
+        }
+        .climate-mini {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        canvas.small-chart {
+            max-height: 180px;
+            width: 100%;
+        }
+        .interactive-choice {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .choice {
+            background: #efe1c1;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .choice.correct {
+            background: #87b95b;
+            color: white;
+            box-shadow: 0 0 0 2px #43732e;
+        }
+        .logic-chain {
+            background: #e7efda;
+            border-radius: 32px;
+            padding: 22px;
+            margin: 18px 0;
+            text-align: center;
+        }
+        .chain-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 20px;
+            align-items: center;
+        }
+        .badge-chain {
+            background: white;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .footer-case {
+            background: #e2d7bd;
+            padding: 20px 32px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 2px solid #ccb689;
+        }
+        @media (max-width: 850px) {
+            .main-grid {
+                padding: 20px;
+            }
+            .detective-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+        .river-highlight {
+            background: #cbe0f0;
+            border-radius: 20px;
+            padding: 10px;
+            margin: 12px 0;
+        }
+        i.fa, i.far, i.fas {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="case-container">
+    <!-- 侦探所头部 -->
+    <div class="detective-header">
+        <div class="title-badge">
+            <h1><i class="fas fa-search"></i> 跨国牛奶侦探所 <i class="fas fa-cow"></i> <i class="fas fa-glass-whiskey"></i></h1>
+            <div class="subtitle">🔍 档案编号：EU-DAIRY-2026 · 主题：欧洲西部自然环境大探秘</div>
+        </div>
+        <div class="case-number"><i class="fas fa-clipboard-list"></i> 沉浸式地理探案 · 七年级下册</div>
+    </div>
+
+    <div class="main-grid">
+        <!-- 左侧：交互地图（证据地图） -->
+        <div class="evidence-map">
+            <div style="font-weight: 800; font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-map"></i> 物证地图 · 牧场与自然要素</div>
+            <div id="milkMap" style="height: 420px; border-radius: 28px; z-index: 1; border: 2px solid #cbbf8c;"></div>
+            <div class="river-highlight" style="margin-top: 12px; font-size: 0.8rem;">
+                <i class="fas fa-info-circle"></i> 线索提示：点击地图上的 🧷 图钉，获取地形/河流/牧场的秘密情报。
+            </div>
+        </div>
+
+        <!-- 右侧：三个关键线索卡（任务逐步深入） -->
+        <div class="clue-board">
+            <!-- 线索一：牧场经纬度之谜 -->
+            <div class="clue-card">
+                <div class="clue-header"><i class="fas fa-location-dot"></i> 线索 #01 · 神秘牧场的坐标密码</div>
+                <div class="clue-body">
+                    <div class="question-mark">❓ 侦探问题：欧洲西部的地形藏着什么秘密？为什么牧场都爱“安家”在中部平原？</div>
+                    <button class="btn-detective" id="revealTerrainBtn"><i class="fas fa-eye"></i> 调取地形报告</button>
+                    <button class="btn-detective" id="mapSpotlightBtn"><i class="fas fa-map-pin"></i> 地图高亮平原区</button>
+                    <div id="terrainAnswer" class="answer-panel">
+                        🧾 <strong>地形勘察报告</strong><br>
+                        📍 欧洲西部位于40°N~北极圈之间，西临大西洋，三面环海。<br>
+                        🏔️ 地形格局：南北山地（阿尔卑斯山脉、斯堪的纳维亚山脉），中部平原广布（西欧平原、波德平原）。<br>
+                        🐄 <strong>侦探结论：</strong> 平坦的地形适合大规模牧草种植与机械化牧场管理，因此牧场多集中在中部平原。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 线索二：气候与牧草生长实验室 -->
+            <div class="clue-card">
+                <div class="clue-header"><i class="fas fa-cloud-sun-rain"></i> 线索 #02 · 气候实验室——为什么牧草如此鲜嫩？</div>
+                <div class="clue-body">
+                    <div class="climate-mini">
+                        <div style="flex:1"><strong>🌧️ 伦敦站 (温带海洋性)</strong><canvas id="londonChartMini" class="small-chart" width="300" height="150"></canvas></div>
+                        <div style="flex:1"><strong>☀️ 罗马站 (地中海对比)</strong><canvas id="romeChartMini" class="small-chart" width="300" height="150"></canvas></div>
+                    </div>
+                    <div class="interactive-choice">
+                        <div class="choice" id="grassChoice">🌿 多汁牧草</div>
+                        <div class="choice" id="wheatChoice">🌾 小麦</div>
+                    </div>
+                    <div id="cropVerdict" class="answer-panel" style="background:#e1e9cd;"></div>
+                    <button class="btn-detective" id="climateReasonBtn"><i class="fas fa-chart-line"></i> 揭秘气候成因</button>
+                    <div id="climateAnalysis" class="answer-panel">
+                        🌊 <strong>西风带 + 北大西洋暖流 = 温带海洋性气候</strong><br>
+                        全年温和湿润（冬季0℃以上，夏季凉爽，降水均匀）→ 多汁牧草四季生长 → 乳畜业黄金地带。<br>
+                        💡 相比之下地中海气候夏季干燥，不利于牧草，适合油橄榄等。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 线索三：牛奶出海——黄金水道之谜 -->
+            <div class="clue-card">
+                <div class="clue-header"><i class="fas fa-ship"></i> 线索 #03 · 牛奶的跨国物流密码</div>
+                <div class="clue-body">
+                    <div class="question-mark">❓ 侦探问题：为什么莱茵河被称为“欧洲的牛奶高速公路”？</div>
+                    <div class="river-highlight">
+                        <i class="fas fa-water"></i> <strong>莱茵河档案：</strong> 发源于阿尔卑斯山，流经6国，注入北海，全长1232km，常年不冻，水位稳定。
+                    </div>
+                    <button class="btn-detective" id="shippingAnswerBtn"><i class="fas fa-truck-fast"></i> 解锁物流优势报告</button>
+                    <div id="shippingReport" class="answer-panel">
+                        🚢 <strong>侦探报告：牛奶/奶酪出口优势链</strong><br>
+                        ✅ 平原+温和气候 → 河流水量充沛且流速平缓 → 内河航道网发达 (莱茵-美因-多瑙运河) → 鹿特丹港为欧洲门户 → 乳制品低成本运往全球。<br>
+                        📦 自然要素联动：地形平坦(便于运河修建) + 气候湿润(河流不断流) = 高效牛奶出海。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 额外推理：综合自然关联图（破案总结） -->
+            <div class="logic-chain">
+                <h3><i class="fas fa-brain"></i> 🧪 侦探结案 · 自然密码关联图</h3>
+                <div class="chain-items">
+                    <span class="badge-chain">🌍 中纬度+西风带</span>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="badge-chain">🌧️ 温带海洋性气候</span>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="badge-chain">🌿 多汁牧草疯长</span>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="badge-chain">🐄 畜牧业冠军</span>
+                </div>
+                <div class="chain-items" style="margin-top: 12px;">
+                    <span class="badge-chain">⛰️ 平原+山地格局</span>
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="badge-chain">💧 稳定降水</span>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="badge-chain">🚢 莱茵河黄金水道</span>
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="badge-chain">🥛 乳制品行销世界</span>
+                </div>
+                <button id="showFullChainBtn" class="btn-detective" style="margin-top: 16px;"><i class="fas fa-clipboard"></i> 展示完整破案逻辑链</button>
+                <div id="fullChainText" class="answer-panel" style="margin-top: 14px;">
+                    📜 <strong>终极结案陈词：</strong><br>
+                    欧洲西部因地理位置特殊（中纬度、西风带），形成了温带海洋性气候，终年温和多雨，造就了多汁牧草的天堂；平原地形为主，便于牧场经营；河流因降水均匀而水量稳定，结合平缓地形成就内河航运，乳制品得以高效出口。这正体现了“人地协调，因地制宜”的地理智慧。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-case">
+        <i class="fas fa-tasks"></i> <strong>课后侦探任务：</strong> 绘制“欧洲西部自然要素思维导图” · 选做：调查家乡一种农产品与自然环境的关系，撰写“小小地理报告”。<br>
+        <i class="fas fa-chalkboard-user"></i> 公开课创新设计 | 跨国牛奶侦探所 · 以“破案”串联地理要素，培育综合思维与区域认知
+    </div>
+</div>
+
+<script>
+    // ---------- 地图初始化（更具侦探风格）----------
+    var map = L.map('milkMap').setView([52.2, 9.5], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB',
+        subdomains: 'abcd'
+    }).addTo(map);
+
+    // 添加侦探风格标记：平原、山脉、河流
+    var plainWest = L.marker([50.5, 4.2], {
+        icon: L.divIcon({html: '<div style="background:#9bc96e; width:32px; height:32px; border-radius: 30px; text-align:center; line-height:32px; font-weight:bold; border:1px solid white;"><i class="fas fa-tractor" style="color:#2f4d2d;"></i></div>', iconSize: [32,32]})
+    }).addTo(map).bindPopup("<b>西欧平原</b><br>🌾 重要乳业牧场带，土壤肥沃");
+    var plainPod = L.marker([52.3, 15.7], {
+        icon: L.divIcon({html: '<div style="background:#9bc96e; width:30px; height:30px; border-radius: 30px; text-align:center;"><i class="fas fa-seedling"></i></div>', iconSize: [30,30]})
+    }).addTo(map).bindPopup("<b>波德平原</b><br>🚜 谷物与牧草交错地带");
+    var alpsMarker = L.marker([46.8, 9.2], {
+        icon: L.divIcon({html: '<div style="background:#b47c48; width:28px; height:32px; border-radius: 20px 20px 8px 8px; text-align:center;"><i class="fas fa-mountain"></i></div>', iconSize: [28,32]})
+    }).addTo(map).bindPopup("<b>阿尔卑斯山脉</b><br>⛰️ 阻挡气流，影响气候分布");
+    var cowMarker = L.marker([52.1, 5.1], {
+        icon: L.divIcon({html: '<div style="font-size:32px;">🐄🔍</div>', iconSize: [36,36]})
+    }).addTo(map).bindPopup("<b>神秘牧场基地</b><br>荷兰顶级乳制品产地，温带海洋性气候典范");
+
+    // 莱茵河和多瑙河路径
+    var rhineCoords = [[46.95, 9.5], [48.1, 8.6], [50.1, 7.5], [51.5, 6.6], [51.9, 5.8], [51.95, 4.1]];
+    L.polyline(rhineCoords, {color: '#3b82b6', weight: 4, opacity: 0.9}).addTo(map).bindPopup("<b>莱茵河 · 黄金水道</b><br>🚢 每年运输数亿吨货物，包括乳制品");
+    var danubeCoords = [[47.9, 8.5], [48.2, 11.5], [47.5, 14.1], [45.3, 19.8]];
+    L.polyline(danubeCoords, {color: '#4682b4', weight: 3, dashArray: '6,6'}).addTo(map).bindPopup("<b>多瑙河</b><br>国际航运通道");
+
+    // 附加标记大西洋暖流示意文字
+    L.marker([55, -10], {icon: L.divIcon({html: '<div style="background:#8ab3cf80; padding:2px 6px; border-radius:20px;">🌊 北大西洋暖流</div>', iconSize: [100,28]})}).addTo(map);
+
+    // 交互功能
+    document.getElementById('revealTerrainBtn').addEventListener('click', () => {
+        const ans = document.getElementById('terrainAnswer');
+        ans.classList.toggle('show');
+    });
+    document.getElementById('mapSpotlightBtn').addEventListener('click', () => {
+        map.setView([51.0, 10.0], 5.5);
+        map.openPopup('<b>🔍 侦探提示：中部平原区（西欧平原、波德平原）</b><br>平坦地形，牧场集中', [51, 10], {closeButton: false});
+        setTimeout(() => map.closePopup(), 3500);
+    });
+
+    // 气候图表
+    const londonT = [4.5,4.6,6.7,9.0,12.3,15.5,17.8,17.5,14.8,11.2,7.5,5.0];
+    const londonP = [55,40,42,44,49,45,45,50,49,68,59,55];
+    const romeT = [7.5,8.2,10.8,13.7,18.0,22.2,25.0,25.2,21.5,17.0,12.2,8.7];
+    const romeP = [81,76,65,55,42,25,19,33,68,93,110,90];
+    const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+    const ctxLon = document.getElementById('londonChartMini').getContext('2d');
+    new Chart(ctxLon, {
+        type: 'bar',
+        data: { labels: months, datasets: [
+            { label: '降水(mm)', data: londonP, backgroundColor: '#76b5c5', yAxisID: 'y' },
+            { label: '气温(℃)', data: londonT, type: 'line', borderColor: '#e67e22', borderWidth: 2, fill: false, tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { font: { size: 8 } } } }, scales: { y: { title: { display: true, text: 'mm' } }, y1: { position: 'right', title: { text: '℃' }, grid: { drawOnChartArea: false } } } }
+    });
+    const ctxRome = document.getElementById('romeChartMini').getContext('2d');
+    new Chart(ctxRome, {
+        type: 'bar',
+        data: { labels: months, datasets: [
+            { label: '降水(mm)', data: romeP, backgroundColor: '#f3a683', yAxisID: 'y' },
+            { label: '气温(℃)', data: romeT, type: 'line', borderColor: '#d35400', borderWidth: 2, fill: false, tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { font: { size: 8 } } } }, scales: { y: { title: { display: true, text: 'mm' } }, y1: { position: 'right', title: { text: '℃' }, grid: { drawOnChartArea: false } } } }
+    });
+
+    // 牧草vs小麦互动
+    const grass = document.getElementById('grassChoice');
+    const wheat = document.getElementById('wheatChoice');
+    const cropDiv = document.getElementById('cropVerdict');
+    grass.addEventListener('click', () => {
+        cropDiv.innerHTML = '✅ <strong>侦探验证：正确！</strong> 多汁牧草喜温和湿润，欧洲西部温带海洋性气候提供完美生长环境，牛奶产量高。';
+        cropDiv.classList.add('show');
+        grass.classList.add('correct');
+        wheat.classList.remove('correct');
+    });
+    wheat.addEventListener('click', () => {
+        cropDiv.innerHTML = '❌ <strong>推理偏离：</strong> 小麦需要生长季光照充足，而欧洲西部阴雨频繁，更适合多汁牧草。再试试看！';
+        cropDiv.classList.add('show');
+        wheat.classList.add('correct');
+        grass.classList.remove('correct');
+        setTimeout(() => { wheat.classList.remove('correct'); }, 1000);
+    });
+    document.getElementById('climateReasonBtn').addEventListener('click', () => {
+        const climatePanel = document.getElementById('climateAnalysis');
+        climatePanel.classList.toggle('show');
+    });
+    document.getElementById('shippingAnswerBtn').addEventListener('click', () => {
+        const shipPanel = document.getElementById('shippingReport');
+        shipPanel.classList.toggle('show');
+    });
+    document.getElementById('showFullChainBtn').addEventListener('click', () => {
+        const chainPanel = document.getElementById('fullChainText');
+        chainPanel.classList.toggle('show');
+    });
+</script>
+</body>
+</html>
