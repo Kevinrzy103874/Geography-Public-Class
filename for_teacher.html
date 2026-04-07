@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>跨国牛奶侦探所 · 欧洲西部自然环境 | 创新公开课方案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #dfe9cf;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            padding: 30px 24px;
+            color: #1d3e1d;
+        }
+
+        /* 侦探档案风格 */
+        .syllabus-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 56px;
+            box-shadow: 0 28px 40px rgba(0, 20, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #d4dba5;
+        }
+
+        /* 头部: 案件封面 */
+        .case-cover {
+            background: #2f4d2d;
+            padding: 28px 36px;
+            color: #fef0cf;
+            border-bottom: 6px solid #ecb34b;
+        }
+        .case-title {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+        .case-title h1 {
+            font-size: 2.4rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .badge-case {
+            background: #00000055;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .tagline {
+            margin-top: 12px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* 主体布局 两栏 */
+        .scheme-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 32px 36px;
+        }
+        .left-plan {
+            flex: 1.2;
+            min-width: 260px;
+        }
+        .right-highlight {
+            flex: 0.9;
+            min-width: 280px;
+            background: #faf8ea;
+            border-radius: 36px;
+            padding: 20px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .section-card {
+            background: #ffffff;
+            border-radius: 32px;
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #e8eecf;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            border-left: 8px solid #d99e3e;
+            padding-left: 18px;
+            margin-bottom: 20px;
+        }
+        .timeline-mission {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .mission {
+            background: #fef5e6;
+            border-radius: 28px;
+            padding: 16px 20px;
+            transition: 0.2s;
+            border-left: 6px solid #b5cf7a;
+        }
+        .mission h3 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .flow-visual {
+            background: #eef2df;
+            border-radius: 28px;
+            padding: 18px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .flow-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px 24px;
+            align-items: center;
+            margin: 12px 0;
+        }
+        .flow-node {
+            background: white;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .arrow-icon {
+            font-size: 1.4rem;
+            color: #7faa46;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #cfdbb5;
+            padding: 10px 12px;
+            vertical-align: top;
+        }
+        th {
+            background: #eef3e2;
+            font-weight: 700;
+        }
+        .btn-like {
+            background: #e1cfaa;
+            border-radius: 40px;
+            padding: 4px 12px;
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .footer-note {
+            background: #e8e2ca;
+            padding: 18px 36px;
+            text-align: center;
+            font-size: 0.8rem;
+            border-top: 2px solid #ccb984;
+        }
+        @media (max-width: 800px) {
+            .scheme-grid {
+                padding: 20px;
+            }
+            .case-title h1 {
+                font-size: 1.7rem;
+            }
+        }
+        .innov-icon {
+            color: #d48d2b;
+        }
+    </style>
+</head>
+<body>
+<div class="syllabus-container">
+    <!-- 案件封面 -->
+    <div class="case-cover">
+        <div class="case-title">
+            <h1><i class="fas fa-search"></i> 跨国牛奶侦探所 <span style="font-size: 1.3rem;">🥛🐄</span><br>《欧洲西部自然环境》公开课方案</h1>
+            <div class="badge-case">📁 案件编号：GEO-MILK-0426 | 七年级下册 · 创新议题式探究</div>
+        </div>
+        <div class="tagline">🔎 线索：一杯牛奶的跨国旅行 · 从牧场到餐桌的地理密码 —— 逐层深入，侦破“乳畜业发达”的自然真相</div>
+    </div>
+
+    <div class="scheme-grid">
+        <!-- 左侧主要教学设计内容 -->
+        <div class="left-plan">
+            <!-- 一、设计理念与核心素养 -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-lightbulb innov-icon"></i> 新颖设计 · 牛奶侦探线索</div>
+                <p>以“<strong>跨国牛奶侦探所</strong>”为情境主线，学生化身地理侦探，通过三个递进的<strong>“破案任务”</strong>，追踪一杯牛奶从欧洲西部牧场到全球餐桌的旅程。将传统“位置-地形-气候-河流”转化为<strong>沉浸式探究</strong>，培养综合思维与人地协调观。</p>
+                <div class="flow-visual" style="margin-top: 15px;">
+                    <div class="flow-row">
+                        <span class="flow-node">🥛 案件导入：神秘牛奶的产地溯源</span>
+                        <span class="arrow-icon">→</span>
+                        <span class="flow-node">🔍 线索1：牧场经纬之谜</span>
+                        <span class="arrow-icon">→</span>
+                        <span class="flow-node">🌿 线索2：牧草生长气候实验室</span>
+                        <span class="arrow-icon">→</span>
+                        <span class="flow-node">🚢 线索3：牛奶出海·黄金水道</span>
+                        <span class="arrow-icon">→</span>
+                        <span class="flow-node">🏆 结案：自然密码关联图</span>
+                    </div>
+                </div>
+                <table>
+                    <tr><th width="30%">核心素养维度</th><th>具体目标</th></tr>
+                    <tr><td>区域认知</td><td>运用地图描述欧洲西部地理位置、地形特征及气候分布，构建空间认知框架</td></tr>
+                    <tr><td>综合思维</td><td>构建“位置→地形→气候→河流→畜牧业”完整逻辑链，分析要素相互影响</td></tr>
+                    <tr><td>地理实践力</td><td>小组合作分析气候图表、地形图，提取信息并表达探究结论</td></tr>
+                    <tr><td>人地协调观</td><td>理解欧洲西部畜牧业因地制宜利用自然环境，树立人地和谐观念</td></tr>
+                </table>
+            </div>
+
+            <!-- 二、教学重难点与创新突破 -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-map-signs innov-icon"></i> 教学重难点 & 创新破局</div>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex:1; background: #f8f2e2; border-radius: 24px; padding: 14px;">
+                        <strong>🎯 教学重点</strong><br>✔ 温带海洋性气候特征与分布<br>✔ 以平原为主的地形特征
+                    </div>
+                    <div style="flex:1; background: #f8f2e2; border-radius: 24px; padding: 14px;">
+                        <strong>🧩 教学难点</strong><br>✔ 地形对气候广布的影响<br>✔ “地形+气候”共同作用下畜牧业发达的内在逻辑
+                    </div>
+                </div>
+                <p style="margin-top: 16px;"><span class="btn-like">💡 新颖策略</span> 以“侦探实验”形式：① 地形拼图破案；② 牧草vs小麦法庭辩论；③ 绘制牛奶出海航运路线图，将难点化解为线索链。</p>
+            </div>
+
+            <!-- 三、教学过程设计（逐层深入） -->
+            <div class="section-card">
+                <div class="section-title"><i class="fas fa-clock innov-icon"></i> 破案流程 · 教学过程 (45分钟)</div>
+                <div class="timeline-mission">
+                    <div class="mission">
+                        <h3><i class="fas fa-door-open"></i> 阶段1 · 情境导入：神秘牛奶邀请函（3分钟）</h3>
+                        <p><strong>侦探情境：</strong> 教师展示“跨国牛奶侦探所”招募令，展示荷兰牧场与奶酪图片，提出终极谜题：“为什么欧洲西部的牛奶品质世界闻名？它的自然环境隐藏哪些密码？”引发好奇，发布三个侦探任务卡。</p>
+                    </div>
+                    <div class="mission">
+                        <h3><i class="fas fa-map-marked-alt"></i> 任务一 · 破解牧场经纬密码（12分钟）</h3>
+                        <p><strong>核心探究：</strong> 欧洲西部在哪里？地形长什么样？<br>
+                        <strong>活动：</strong> 小组合作完成“地形线索图”——在空白地图上标注半球、纬度、海陆位置，用绿色涂平原，棕色涂山脉。归纳“南北山地，中部平原广布”。<br>
+                        <strong>侦探笔记：</strong> 平原为主 → 适宜牧草种植与牧场经营 → 初步建立关联。</p>
+                    </div>
+                    <div class="mission">
+                        <h3><i class="fas fa-cloud-sun-rain"></i> 任务二 · 气候实验室：牧草生长的秘密（15分钟）</h3>
+                        <p><strong>核心探究：</strong> 温和湿润的气候如何成就多汁牧草？<br>
+                        <strong>活动：</strong> ①分析伦敦与罗马气温降水图，对比温带海洋性气候与地中海气候；②“牧草 VS 小麦”习性辩论赛（提供多汁牧草喜湿喜温、小麦需光照充足资料卡），学生判断哪种作物更适合欧洲西部。<br>
+                        <strong>侦探突破：</strong> 西风带+暖流→温和湿润→牧草旺盛生长→畜牧业基础。</p>
+                    </div>
+                    <div class="mission">
+                        <h3><i class="fas fa-ship"></i> 任务三 · 牛奶出海：黄金水道追踪（5分钟）</h3>
+                        <p><strong>核心探究：</strong> 乳制品如何高效运往世界？<br>
+                        <strong>活动：</strong> 观察莱茵河、多瑙河分布，讨论“平原+均匀降水”对航运的影响。小组归纳：水量稳定+流速平缓→便利内河航运→乳制品出口优势。</p>
+                    </div>
+                    <div class="mission">
+                        <h3><i class="fas fa-chalkboard"></i> 结案陈词 · 绘制自然密码关联图（8分钟）</h3>
+                        <p><strong>综合建构：</strong> 小组合作绘制“欧洲西部自然环境与畜牧业关联图”，展示逻辑链；教师总结人地协调观，强调因地制宜的发展智慧。</p>
+                    </div>
+                    <div class="mission">
+                        <h3><i class="fas fa-book-open"></i> 侦探拓展 · 作业布置（2分钟）</h3>
+                        <p><strong>必做：</strong> 绘制“欧洲西部自然要素思维导图”。<br><strong>选做：</strong> 调查本地一种特色农产品与自然环境的关系，撰写“小小地理报告”。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧：亮点、资源及创新线索图示 -->
+        <div class="right-highlight">
+            <div style="background:#fff1df; border-radius: 32px; padding: 10px 20px 20px; margin-bottom: 25px;">
+                <h3 style="display: flex; gap: 8px;"><i class="fas fa-star-of-life" style="color:#d48d2b;"></i> 方案创新亮点</h3>
+                <ul style="margin-left: 20px; list-style-type: none;">
+                    <li><i class="fas fa-magnifying-glass-chart"></i> ✨ <strong>侦探角色沉浸式学习</strong> —— 三个“破案任务”层层递进，激发主动探究。</li>
+                    <li><i class="fas fa-chart-simple"></i> 📊 <strong>执果索因问题链</strong> —— 从“牛奶好喝”回溯气候与地形，培养逆向思维。</li>
+                    <li><i class="fas fa-hand-peace"></i> 🧩 <strong>跨学科融合</strong> —— 牧草习性小实验，图表判读，地理与生物知识联动。</li>
+                    <li><i class="fas fa-map"></i> 🗺️ <strong>数字互动辅助</strong> —— 配合交互式地图+气候图表网页，直观呈现抽象概念。</li>
+                    <li><i class="fas fa-brain"></i> 🧠 <strong>自然关联图构建</strong> —— 最终绘制逻辑链，实现知识结构化。</li>
+                </ul>
+            </div>
+
+            <!-- 板书设计（侦探线索板风格） -->
+            <div style="background:#efe3c9; border-radius: 32px; padding: 16px 20px; margin-bottom: 25px;">
+                <h3><i class="fas fa-chalkboard"></i> 侦探线索板书</h3>
+                <pre style="background:#fff6e8; padding: 14px; border-radius: 24px; font-family: monospace; font-size: 0.85rem;">
+🥛 跨国牛奶侦探所 · 自然密码
+├─ 📍 地理位置：中纬度·西风带
+├─ 🗺️ 地形：南北山地，中部平原广阔
+├─ 🌧️ 气候：温带海洋性 → 温和湿润
+├─ 💧 河流：水量稳定，流速平缓（莱茵河）
+└─ 🐄 结论：畜牧业发达 + 乳制品畅销全球
+    (人地协调·因地制宜)
+                </pre>
+            </div>
+
+            <!-- 教学资源清单（侦探装备） -->
+            <div style="background:#cfe0ba; border-radius: 32px; padding: 16px 20px;">
+                <h3><i class="fas fa-toolbox"></i> 侦探装备 · 教学资源</h3>
+                <ul style="margin-left: 20px;">
+                    <li><i class="fas fa-map"></i> 欧洲西部地形图 & 空白任务地图（每组）</li>
+                    <li><i class="fas fa-chart-line"></i> 伦敦、罗马气温降水图表（数字/纸质）</li>
+                    <li><i class="fas fa-seedling"></i> 多汁牧草 vs 小麦生长习性资料卡</li>
+                    <li><i class="fas fa-laptop"></i> 辅助互动网页（含动态地图&图表）</li>
+                    <li><i class="fas fa-pencil-alt"></i> 彩色铅笔、小组任务单、关联图绘制纸</li>
+                    <li><i class="fas fa-video"></i> 莱茵河航运短视频片段（可选）</li>
+                </ul>
+            </div>
+
+            <!-- 自然要素关联图（视觉化） -->
+            <div style="margin-top: 25px; background:#faf5e3; border-radius: 32px; padding: 18px;">
+                <h3><i class="fas fa-project-diagram"></i> 最终破案逻辑链</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🌍 中纬度+西风带</span>
+                        <span>→</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🌧️ 温带海洋性气候</span>
+                        <span>→</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🌿 多汁牧草</span>
+                        <span>→</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🐄 畜牧业发达</span>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px;">
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">⛰️ 中部平原地形</span>
+                        <span>+</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">💧 稳定降水</span>
+                        <span>→</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🚢 黄金水道航运</span>
+                        <span>→</span>
+                        <span style="background:#fff; border-radius: 40px; padding: 4px 16px;">🥛 乳制品出口全球</span>
+                    </div>
+                </div>
+                <p class="btn-like" style="margin-top: 15px; text-align:center;">🔑 人地协调观 · 因地制宜的智慧</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详细时间表辅助（三阶线索深入） -->
+    <div style="padding: 0 36px 20px 36px;">
+        <div style="background: #e6eace; border-radius: 36px; padding: 18px 24px;">
+            <h3><i class="fas fa-hourglass-half"></i> 🕵️ 线索深入 · 三阶探究路径图</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; margin-top: 12px;">
+                <div style="flex:1; background: #ffffffc9; border-radius: 28px; padding: 16px; text-align: center;">
+                    <i class="fas fa-location-dot" style="font-size: 2rem; color: #bb8b3c;"></i>
+                    <h4>阶段Ⅰ 牧场定位</h4>
+                    <p>读图识别地理位置、平原与山地分布 → 发现地形平坦利于畜牧业</p>
+                </div>
+                <div style="flex:1; background: #ffffffc9; border-radius: 28px; padding: 16px; text-align: center;">
+                    <i class="fas fa-cloud-rain" style="font-size: 2rem; color: #5e8c5a;"></i>
+                    <h4>阶段Ⅱ 气候匹配</h4>
+                    <p>分析温带海洋性气候特征 → 多汁牧草生长优势 → 突破“气候-农业”核心逻辑</p>
+                </div>
+                <div style="flex:1; background: #ffffffc9; border-radius: 28px; padding: 16px; text-align: center;">
+                    <i class="fas fa-ship" style="font-size: 2rem; color: #4a6f8f;"></i>
+                    <h4>阶段Ⅲ 贸易延伸</h4>
+                    <p>地形+气候→河流航运优势 → 乳制品走向世界，构建完整人地链条</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        📌 本公开课方案基于“跨国牛奶侦探所”新颖情境，以“一杯牛奶”为线索，通过三个递进侦探任务，落实区域认知、综合思维等地理核心素养。<br>
+        🧪 配套互动网页 + 地图图表工具，让学习像破案一样有趣，体现新课标“学习对生活有用的地理”。
+    </div>
+</div>
+<!-- 加入FontAwesome图标库 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</body>
+</html>
