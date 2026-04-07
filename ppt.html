@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>欧洲西部自然环境 · 完整PPT式公开课 | 跨国牛奶侦探所</title>
+    <!-- 字体与图标库 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #eef3e0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 幻灯片容器 */
+        .slides-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* 每一张幻灯片卡片 */
+        .slide {
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            padding: 36px 40px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            scroll-margin-top: 20px;
+        }
+        .slide:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 标题区 */
+        .slide-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 4px solid #e6dbb5;
+            padding-bottom: 16px;
+            margin-bottom: 28px;
+        }
+        .slide-num {
+            background: #2f6b2f;
+            color: white;
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+        .slide-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c5a2a, #86b34d);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .subhead {
+            color: #5e7848;
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* 网格布局 */
+        .grid-2 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin: 24px 0;
+        }
+        .col {
+            flex: 1;
+            min-width: 220px;
+        }
+        .info-card {
+            background: #fefcf0;
+            border-radius: 32px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #e8e2c7;
+            height: 100%;
+        }
+        .fact-badge {
+            background: #e7efd3;
+            border-radius: 40px;
+            padding: 6px 16px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+        .map-placeholder {
+            background: #dde5cf;
+            border-radius: 28px;
+            padding: 12px;
+            text-align: center;
+            margin: 18px 0;
+        }
+        .climate-chart-box {
+            background: #f9f8ef;
+            border-radius: 28px;
+            padding: 16px;
+        }
+        canvas {
+            max-height: 220px;
+            width: 100%;
+        }
+        .interactive-quiz {
+            background: #f4efdf;
+            border-radius: 28px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .btn-slide {
+            background: #2f6b2f;
+            border: none;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-slide:hover {
+            background: #1f4a1f;
+            transform: scale(0.97);
+        }
+        .answer-reveal {
+            background: #e5eccc;
+            border-radius: 24px;
+            padding: 12px 20px;
+            margin-top: 16px;
+            display: none;
+        }
+        .show-answer {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        th, td {
+            border: 1px solid #cddcb0;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #eaf3db;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #6f8662;
+        }
+        @media (max-width: 750px) {
+            .slide {
+                padding: 24px 20px;
+            }
+            .slide-title {
+                font-size: 1.4rem;
+            }
+        }
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .river-highlight {
+            background: #cfe2f0;
+            border-radius: 24px;
+            padding: 14px;
+            margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="slides-container">
+    <!-- 封面 slide -->
+    <div class="slide" style="background: linear-gradient(125deg, #ffffff 0%, #fbf7e6 100%);">
+        <div style="text-align: center; padding: 20px 0;">
+            <i class="fas fa-search" style="font-size: 4rem; color: #bc9a4b;"></i>
+            <i class="fas fa-cow" style="font-size: 3.5rem; color: #8b6b3d;"></i>
+            <h1 style="font-size: 3rem; margin: 16px 0; background: linear-gradient(135deg, #2f6b2f, #c29b3b); background-clip: text; -webkit-background-clip: text; color: transparent;">跨国牛奶侦探所</h1>
+            <p style="font-size: 1.4rem; font-weight: 500;">欧洲西部的自然环境 · 七年级下册公开课</p>
+            <div style="margin: 32px auto; width: 80px; height: 3px; background: #cfb87c;"></div>
+            <p><i class="fas fa-map-marked-alt"></i> 从牧场到餐桌 · 解密一杯牛奶的地理密码</p>
+            <p style="margin-top: 12px;"><i class="fas fa-chalkboard-user"></i> 情境探究 · 议题式学习 · 核心素养导向</p>
+            <div style="margin-top: 40px;">
+                <span class="fact-badge">🌍 区域认知</span>
+                <span class="fact-badge">🧩 综合思维</span>
+                <span class="fact-badge">🤝 人地协调观</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第2张：学习目标与核心问题 -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">1</div>
+            <div class="slide-title">🕵️ 侦探案件 · 学习目标</div>
+        </div>
+        <div class="grid-2">
+            <div class="col">
+                <div class="info-card">
+                    <i class="fas fa-question-circle" style="font-size: 1.8rem; color:#d49b3a;"></i>
+                    <h3 style="margin: 12px 0;">🔎 核心谜题</h3>
+                    <p style="font-weight: 600;">为什么欧洲西部的畜牧业如此发达？<br>一杯牛奶背后隐藏着怎样的自然密码？</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="info-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>📌 学习目标</h3>
+                    <ul style="margin-left: 20px;">
+                        <li>运用地图描述欧洲西部地理位置、地形与气候分布</li>
+                        <li>构建“位置→地形→气候→河流→畜牧业”逻辑链</li>
+                        <li>通过图表分析温带海洋性气候特征</li>
+                        <li>理解因地制宜发展农业的智慧</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="interactive-quiz">
+            <i class="fas fa-lightbulb"></i> <strong>侦探情境导入：</strong> 教师展示荷兰牧场奶酪图片，发布“跨国牛奶侦探所”邀请函 —— 今天我们将化身地理侦探，追踪一杯牛奶的跨国之旅，破解欧洲西部自然环境的三大线索。
+        </div>
+    </div>
+
+    <!-- 第3张：线索一 地理位置与地形（牧场在哪儿） -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">2</div>
+            <div class="slide-title">🧭 线索一 · 牧场经纬密码</div>
+        </div>
+        <div class="grid-2">
+            <div class="col">
+                <div class="info-card">
+                    <h3><i class="fas fa-globe-europe"></i> 地理位置</h3>
+                    <p>▪ 半球位置：东半球、北半球<br>▪ 纬度位置：40°N — 北极圈，主要位于北温带<br>▪ 海陆位置：西临大西洋，北临北冰洋，南临地中海</p>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map" style="font-size: 3rem; color:#5e7e47;"></i>
+                        <p style="font-size: 0.75rem;">欧洲西部地形示意：南北山地，中部平原</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="info-card">
+                    <h3><i class="fas fa-mountain"></i> 地形特征</h3>
+                    <p>▪ 南北多山地：<strong>斯堪的纳维亚山脉、阿尔卑斯山脉</strong><br>▪ 中部平原广阔：<strong>西欧平原、波德平原</strong><br>▪ 地势低平，平原面积约占60%</p>
+                    <div class="fact-badge">🐄 平原优势 → 利于牧草种植与牧场机械化</div>
+                    <button class="btn-slide" id="showTerrainAnswer"><i class="fas fa-eye"></i> 侦探地形报告</button>
+                    <div id="terrainDetail" class="answer-reveal">
+                        ✅ 中部平原地形平坦，土壤肥沃，适合大规模多汁牧草生长，为乳畜业提供基础。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第4张：气候实验室 温带海洋性气候（核心） -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">3</div>
+            <div class="slide-title">🌧️ 线索二 · 气候实验室 — 温和湿润的奥秘</div>
+        </div>
+        <p>欧洲西部大部分属于<strong>温带海洋性气候</strong>，全年温和多雨。与地中海气候对比：</p>
+        <div class="climate-chart-box">
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex:1;">
+                    <strong>🌂 伦敦 (温带海洋性)</strong>
+                    <canvas id="londonClimateChart" width="400" height="200" style="max-width:100%"></canvas>
+                    <div>全年降水均匀，冬无严寒夏无酷暑</div>
+                </div>
+                <div style="flex:1;">
+                    <strong>☀️ 罗马 (地中海气候·对比)</strong>
+                    <canvas id="romeClimateChart" width="400" height="200" style="max-width:100%"></canvas>
+                    <div>夏季炎热干燥，冬季温和多雨</div>
+                </div>
+            </div>
+        </div>
+        <div class="interactive-quiz">
+            <div><i class="fas fa-seedling"></i> <strong>侦探实验：多汁牧草 vs 小麦</strong></div>
+            <div style="display: flex; gap: 20px; margin: 15px 0;">
+                <button class="btn-slide" id="grassBtnChoice">🌿 多汁牧草（喜温和湿润）</button>
+                <button class="btn-slide" id="wheatBtnChoice">🌾 小麦（喜光照、耐旱）</button>
+            </div>
+            <div id="cropFeedback" class="answer-reveal"></div>
+            <button class="btn-slide" id="climateReasonBtn"><i class="fas fa-chart-line"></i> 气候成因揭秘</button>
+            <div id="climateReasonPanel" class="answer-reveal">
+                🌊 成因：中纬度 → 西风带 + 北大西洋暖流增温增湿 → 终年温和湿润 → 多汁牧草生长旺盛。
+            </div>
+        </div>
+    </div>
+
+    <!-- 第5张：河流与牛奶出海（黄金水道） -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">4</div>
+            <div class="slide-title">🚢 线索三 · 牛奶出海 & 黄金水道</div>
+        </div>
+        <div class="grid-2">
+            <div class="col">
+                <div class="river-highlight">
+                    <i class="fas fa-water"></i> <strong>莱茵河 —— 欧洲黄金水道</strong><br>
+                    发源于阿尔卑斯山，流经德国、荷兰注入北海，水量稳定，常年不冻，通航里程长。
+                </div>
+                <div class="river-highlight">
+                    <i class="fas fa-ship"></i> <strong>多瑙河</strong>：欧洲第二长河，沟通黑海。
+                </div>
+                <button class="btn-slide" id="shippingBtn"><i class="fas fa-truck-fast"></i> 航运优势分析</button>
+                <div id="shippingInfo" class="answer-reveal">
+                    ✅ 优势：平原流速缓 + 降水均匀水量丰沛 → 内河航运发达 → 乳制品低成本运往世界，鹿特丹港为欧洲门户。
+                </div>
+            </div>
+            <div class="col">
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-line"></i> 自然联动推理</h3>
+                    <p>温带海洋性气候 → 河流水量稳定；平原地形 → 水流平缓 → 便利的航运促进乳畜产品出口。地形+气候共同助推畜牧业贸易。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第6张：自然要素关联图（破案总结） -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">5</div>
+            <div class="slide-title">🧠 结案陈词 · 自然要素关联图</div>
+        </div>
+        <div style="background: #eff3e2; border-radius: 32px; padding: 20px; text-align: center;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 24px; margin: 16px 0;">
+                <span class="fact-badge">🌍 中纬度+西风带</span> <i class="fas fa-arrow-right"></i>
+                <span class="fact-badge">🌧️ 温带海洋性气候</span> <i class="fas fa-arrow-right"></i>
+                <span class="fact-badge">🌿 多汁牧草生长</span> <i class="fas fa-arrow-right"></i>
+                <span class="fact-badge">🐄 畜牧业发达</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 24px;">
+                <span class="fact-badge">⛰️ 平原为主地形</span> <i class="fas fa-plus"></i>
+                <span class="fact-badge">💧 稳定降水</span> <i class="fas fa-arrow-right"></i>
+                <span class="fact-badge">🚢 黄金水道航运</span> <i class="fas fa-arrow-right"></i>
+                <span class="fact-badge">🥛 乳制品出口全球</span>
+            </div>
+            <p style="margin-top: 24px; font-weight: 700;"><i class="fas fa-hand-peace"></i> 人地协调 · 因地制宜：欧洲西部充分利用自然条件，成就世界乳畜业典范。</p>
+        </div>
+        <button class="btn-slide" id="fullLogicBtn" style="margin-top: 20px;"><i class="fas fa-clipboard-list"></i> 展示完整破案逻辑链</button>
+        <div id="fullLogicChain" class="answer-reveal">
+            📜 终极结案：地理位置（西风带/中纬度）→ 温带海洋性气候（温和湿润）→ 牧草优质；平原广阔便于牧场经营，河流水量稳定促进贸易，最终形成高度发达的乳畜业。
+        </div>
+    </div>
+
+    <!-- 第7张：课堂活动与板书设计 -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">6</div>
+            <div class="slide-title">📝 课堂互动 · 侦探笔记</div>
+        </div>
+        <div class="grid-2">
+            <div class="col">
+                <div class="info-card">
+                    <h3>✍️ 小组探究任务</h3>
+                    <p>1️⃣ 绘制欧洲西部自然要素关联图（小组合作）<br>2️⃣ 角色扮演：如果你是牧场主，如何利用自然环境优势？<br>3️⃣ 完成学案：分析莱茵河航运的有利条件。</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="info-card">
+                    <h3><i class="fas fa-chalkboard"></i> 板书设计</h3>
+                    <pre style="background:#f3f1e3; padding: 12px; border-radius: 20px; font-size:0.75rem;">
+欧洲西部自然环境
+├─ 位置: 中纬度·西风带
+├─ 地形: 平原为主(中部平原)
+├─ 气候: 温带海洋性(温和湿润)
+├─ 河流: 莱茵河等 水量稳定
+└─ 畜牧业发达 ← 人地协调
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第8张：作业布置与拓展 -->
+    <div class="slide">
+        <div class="slide-header">
+            <div class="slide-num">7</div>
+            <div class="slide-title">📚 侦探任务 · 课后拓展</div>
+        </div>
+        <div class="info-card">
+            <h3><i class="fas fa-book"></i> 必做作业</h3>
+            <p>绘制一张“欧洲西部自然要素思维导图”，梳理地理位置、地形、气候、河流与畜牧业的关系。</p>
+            <h3 style="margin-top: 16px;"><i class="fas fa-globe"></i> 选做探究（二选一）</h3>
+            <p>🔹 调查本地一种特色农产品（如茶叶、苹果等），分析其生长与自然环境的关系，撰写200字地理小报告。<br>
+            🔹 观看纪录片《北欧半岛》片段，对比欧洲西部与我国内蒙古畜牧业自然条件差异。</p>
+        </div>
+        <div class="footer-note">
+            🧪 下一节课将进行“侦探成果展”，分享你的思维导图与地理调查报告！
+        </div>
+    </div>
+
+    <!-- 尾页 致谢 -->
+    <div class="slide" style="background: #fbf7e6; text-align: center;">
+        <i class="fas fa-magnifying-glass" style="font-size: 3rem; color:#d6a84b;"></i>
+        <h2>跨国牛奶侦探所 · 圆满结案</h2>
+        <p style="margin: 20px 0;">感谢各位地理侦探的参与！<br>记住：每一杯牛奶背后，都蕴含着大自然的智慧与人地和谐的哲学。</p>
+        <div class="fact-badge">🌾 学习对生活有用的地理</div>
+        <div class="fact-badge">🧠 综合思维 · 区域认知</div>
+        <div style="margin-top: 32px;">
+            <i class="fas fa-chalkboard-user"></i> 公开课设计 · 欧洲西部自然环境
+        </div>
+    </div>
+</div>
+
+<script>
+    // 气候图表
+    const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    const londonTemps = [4.5,4.6,6.7,9.0,12.3,15.5,17.8,17.5,14.8,11.2,7.5,5.0];
+    const londonPrec = [55,40,42,44,49,45,45,50,49,68,59,55];
+    const romeTemps = [7.5,8.2,10.8,13.7,18.0,22.2,25.0,25.2,21.5,17.0,12.2,8.7];
+    const romePrec = [81,76,65,55,42,25,19,33,68,93,110,90];
+
+    const ctxLon = document.getElementById('londonClimateChart').getContext('2d');
+    new Chart(ctxLon, {
+        type: 'bar',
+        data: { labels: months, datasets: [
+            { label: '降水量 (mm)', data: londonPrec, backgroundColor: '#74b9ff', yAxisID: 'y' },
+            { label: '气温 (℃)', data: londonTemps, type: 'line', borderColor: '#e67e22', borderWidth: 2, fill: false, tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { font: { size: 9 } } } }, scales: { y: { title: { display: true, text: 'mm' } }, y1: { position: 'right', title: { text: '℃' }, grid: { drawOnChartArea: false } } } }
+    });
+    const ctxRome = document.getElementById('romeClimateChart').getContext('2d');
+    new Chart(ctxRome, {
+        type: 'bar',
+        data: { labels: months, datasets: [
+            { label: '降水量 (mm)', data: romePrec, backgroundColor: '#f39c12', yAxisID: 'y' },
+            { label: '气温 (℃)', data: romeTemps, type: 'line', borderColor: '#d35400', borderWidth: 2, fill: false, tension: 0.3, yAxisID: 'y1' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top', labels: { font: { size: 9 } } } }, scales: { y: { title: { display: true, text: 'mm' } }, y1: { position: 'right', title: { text: '℃' }, grid: { drawOnChartArea: false } } } }
+    });
+
+    // 交互按钮
+    document.getElementById('showTerrainAnswer').addEventListener('click', () => {
+        document.getElementById('terrainDetail').classList.toggle('show-answer');
+    });
+    const grassBtn = document.getElementById('grassBtnChoice');
+    const wheatBtn = document.getElementById('wheatBtnChoice');
+    const cropFeedbackDiv = document.getElementById('cropFeedback');
+    grassBtn.addEventListener('click', () => {
+        cropFeedbackDiv.innerHTML = '✅ 正确！多汁牧草喜温和湿润，欧洲西部温带海洋性气候完美匹配，因此畜牧业发达。';
+        cropFeedbackDiv.classList.add('show-answer');
+    });
+    wheatBtn.addEventListener('click', () => {
+        cropFeedbackDiv.innerHTML = '❌ 小麦需要充足光照与较干燥的生长季，欧洲西部多雨湿润，更适合多汁牧草。';
+        cropFeedbackDiv.classList.add('show-answer');
+    });
+    document.getElementById('climateReasonBtn').addEventListener('click', () => {
+        document.getElementById('climateReasonPanel').classList.toggle('show-answer');
+    });
+    document.getElementById('shippingBtn').addEventListener('click', () => {
+        document.getElementById('shippingInfo').classList.toggle('show-answer');
+    });
+    document.getElementById('fullLogicBtn').addEventListener('click', () => {
+        document.getElementById('fullLogicChain').classList.toggle('show-answer');
+    });
+</script>
+</body>
+</html>
