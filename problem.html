@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>中欧班列·地理闯关 | 欧陆侦探答题器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #121826, #0a0f17);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 32px 24px;
+            min-height: 100vh;
+            color: #eef2ff;
+        }
+
+        /* 魔法玻璃容器 */
+        .magic-container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* 炫酷标题栏 */
+        .hero-header {
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .hero-header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F9E0A0, #D4AF37, #FFB347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            letter-spacing: -0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .hero-header p {
+            color: #a7c0e0;
+            margin-top: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .magic-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, rgba(0,0,0,0) 70%);
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        /* 左右两栏并行，顶端对齐 */
+        .quiz-dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-top: 20px;
+        }
+        /* 左侧题目区 */
+        .question-area {
+            flex: 1.4;
+            min-width: 320px;
+            background: rgba(18, 25, 35, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        /* 图片容器（固定在左侧上面） */
+        .image-gallery {
+            width: 100%;
+            background: #0f141c;
+            border-bottom: 1px solid #2a3545;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 240px;
+        }
+        .group-img {
+            max-width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            background: #1e2a36;
+            padding: 8px;
+        }
+        .question-text-panel {
+            padding: 28px 28px 32px;
+        }
+        .question-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid #e6b422;
+            padding-left: 18px;
+        }
+        .question-stem {
+            background: #0f1820;
+            border-radius: 28px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            border: 1px solid #2e3b2e;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 28px 0 20px;
+        }
+        .opt-item {
+            background: #1a2632;
+            border-radius: 60px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #2f3e4e;
+            font-weight: 500;
+        }
+        .opt-item:hover {
+            background: #2a3a48;
+            transform: translateX(6px);
+            border-color: #e6b422;
+        }
+        .opt-prefix {
+            font-weight: 800;
+            background: #2c3e2f;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+        }
+        .opt-item.selected-correct {
+            background: #1f5f2e;
+            border-color: #b9f6a5;
+            box-shadow: 0 0 10px #4caf50;
+        }
+        .opt-item.selected-wrong {
+            background: #9b2f2f;
+            border-color: #ffa098;
+            text-decoration: line-through;
+        }
+        .disabled-click {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        /* 右侧解析栏 + OIWiki魔法风格 */
+        .analysis-area {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(10, 16, 24, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 35px -10px black, inset 0 1px 0 rgba(255,215,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        /* 进度条区 */
+        .progress-section {
+            padding: 20px 28px 12px;
+            border-bottom: 1px solid #2c3a2a;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #d4c29b;
+        }
+        .progress-bar-bg {
+            background: #232c36;
+            border-radius: 40px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #e6b422, #ffcf6e);
+            border-radius: 40px;
+            transition: width 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        /* 解析魔法卡片 */
+        .analysis-card {
+            flex: 1;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .analysis-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #ffcf6e;
+            padding-left: 16px;
+        }
+        .analysis-content {
+            background: #0f1822c9;
+            border-radius: 32px;
+            padding: 20px;
+            font-size: 0.98rem;
+            line-height: 1.55;
+            border: 1px solid #3e4a3a;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3), 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .analysis-content i {
+            color: #ffd966;
+            margin-right: 8px;
+        }
+        .next-btn-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn-next-magic {
+            background: linear-gradient(95deg, #2c3e2f, #1f3a2a);
+            border: 1px solid #d4af37;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #ffefcf;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .btn-next-magic:hover {
+            background: #3f5a36;
+            transform: scale(1.02);
+            box-shadow: 0 0 12px #e6b422;
+            border-color: #ffd966;
+        }
+        .footer-status {
+            padding: 16px 28px 24px;
+            text-align: center;
+            font-size: 0.8rem;
+            border-top: 1px solid #2f3a2a;
+            color: #9bb3cf;
+        }
+        @media (max-width: 860px) {
+            .quiz-dashboard { flex-direction: column; }
+            .hero-header h1 { font-size: 1.8rem; }
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 80px;
+            font-size: 1.4rem;
+        }
+        .correct-badge {
+            color: #c3e88d;
+        }
+        .wrong-badge {
+            color: #ffa48e;
+        }
+    </style>
+</head>
+<body>
+<div class="magic-container">
+    <div class="hero-header">
+        <div class="magic-glow"></div>
+        <h1><i class="fas fa-train"></i> 中欧班列·地理谜题 <i class="fas fa-cargo-ship"></i></h1>
+        <p>⚡ 亚欧大陆桥 | 欧陆侦探 · 魔法解析 ⚡</p>
+    </div>
+
+    <div class="quiz-dashboard" id="quizRoot">
+        <!-- 左侧动态渲染 -->
+        <div class="question-area" id="leftPanel">
+            <div class="image-gallery" id="groupImageArea">
+                <!-- 动态图片 -->
+                <img id="topicImage" class="group-img" src="" alt="题目配图">
+            </div>
+            <div class="question-text-panel" id="questionTextPanel">
+                <!-- 动态题目内容 -->
+            </div>
+        </div>
+        <!-- 右侧解析栏 -->
+        <div class="analysis-area" id="rightPanel">
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span><i class="fas fa-chart-line"></i> 侦探进度</span>
+                    <span id="progressFraction">第1 / 共?题</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="progressFillBar"></div>
+                </div>
+            </div>
+            <div class="analysis-card">
+                <div class="analysis-title">
+                    <i class="fas fa-scroll"></i> 解析 · 魔法卷轴
+                </div>
+                <div class="analysis-content" id="analysisText">
+                    ✨ 选择选项后，将显示详细解析与推理过程 ✨
+                </div>
+                <div class="next-btn-wrapper">
+                    <button class="btn-next-magic" id="nextQuestionBtn"><i class="fas fa-arrow-right"></i> 下一题 →</button>
+                </div>
+            </div>
+            <div class="footer-status">
+                <i class="fas fa-dragon"></i> OIWiki 炫酷魔法 · 地理闯关
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 数据结构: 支持一组或多组题目，每组可以有图片，每个题目包含题干、选项、正确答案、解析等。
+    // 由于需要读取 /data/xxx.json，我们用 fetch 模拟
+    // 按照题目要求: 从 data.json 读取，图片放在 /data/ 文件夹中，图片名称由 json 指定。
+    // 样例数据完全适配“中欧班列”+“乳畜业”共4题，含两张图片（一组图片对应2题）
+    // 注意：实际部署时请将图片放在 /data/ 目录下，json结构如下。
+
+    let quizData = null;          // 存储完整题目集
+    let currentGroupIndex = 0;    // 当前组索引 (一组可能含多道题目，共享图片)
+    let currentSubIndex = 0;       // 组内第几题
+    let totalQuestionsCount = 0;
+    let selectedState = [];        // 记录每道题是否已经作答 (防止重复计分/重复显示解析)
+    let userAnswers = [];           // 存储选择的选项字母
+
+    // DOM 元素
+    const leftPanel = document.getElementById('leftPanel');
+    const groupImageArea = document.getElementById('groupImageArea');
+    const topicImage = document.getElementById('topicImage');
+    const questionTextPanel = document.getElementById('questionTextPanel');
+    const analysisTextDiv = document.getElementById('analysisText');
+    const progressFractionSpan = document.getElementById('progressFraction');
+    const progressFillBar = document.getElementById('progressFillBar');
+    const nextBtn = document.getElementById('nextQuestionBtn');
+
+    // 加载数据
+    async function loadQuizData() {
+        try {
+            // 模拟从 /data/data.json 读取，根据需求本地路径
+            // 由于github环境 /data/data.json 需要真实存在，我们内嵌一份数据用于演示，但严格遵循json读取逻辑
+            // 为了完全符合规范，使用fetch，若不存在则使用内嵌备份（实际上课环境可自行放置data.json）
+            const response = await fetch('/data/data.json');
+            if (!response.ok) throw new Error('JSON加载失败，使用内置演示数据');
+            quizData = await response.json();
+            initFromData(quizData);
+        } catch (err) {
+            console.warn("使用内置魔法数据 (模拟从data.json读取)");
+            // 内置符合题目要求的演示数据（中欧班列+乳畜业两组图片，共4题）
+            quizData = {
+                "groups": [
+                    {
+                        "image": "zhongou_train.jpg",
+                        "image_alt": "中欧班列与海运空运对比图",
+                        "questions": [
+                            {
+                                "text": "与海运、空运相比，中欧班列的优势为（　　）<br>①正点准时　②受自然环境影响小　③灵活性差　④速度最快　⑤运价适中",
+                                "options": ["A．①②③", "B．③④⑤", "C．①②⑤", "D．①③④"],
+                                "answer": "C",
+                                "explanation": "中欧班列是铁路运输，受自然环境的影响小，正点准时，运价适中，①②⑤正确；灵活性较差，速度比空运慢，③④错误。故选C。"
+                            },
+                            {
+                                "text": "从欧洲返回的中欧班列装载的物品可能有（　　）",
+                                "options": ["A．泰国香米", "B．韩国泡菜", "C．巴西咖啡", "D．德国奶酪"],
+                                "answer": "D",
+                                "explanation": "欧洲西部乳畜业发达，德国奶酪是欧洲代表性产品，泰国、韩国、巴西不在欧洲，因此选D。"
+                            }
+                        ]
+                    },
+                    {
+                        "image": "europe_climate_dairy.jpg",
+                        "image_alt": "欧洲西部气候分布及乳产品产销图",
+                        "questions": [
+                            {
+                                "text": "温带海洋性气候有利于牧草生长。上图地区中，最适宜发展乳畜业的是（　　）",
+                                "options": ["A．①", "B．②", "C．③", "D．④"],
+                                "answer": "B",
+                                "explanation": "②地位于大西洋沿岸，属于温带海洋性气候，多阴雨天气，为牧草提供优质生长环境，最适宜乳畜业。"
+                            },
+                            {
+                                "text": "图中反映了欧洲西部乳畜业发达的社会经济条件包括（　　）<br>①气候温和湿润，有利于牧草生长<br>②鲜奶冷藏技术高<br>③居民有食用乳肉制品的饮食习惯<br>④奶制品加工技术先进",
+                                "options": ["A．①②③", "B．①③④", "C．②③④", "D．①②④"],
+                                "answer": "C",
+                                "explanation": "气候温和湿润属于自然条件，题目问社会经济条件，因此②③④正确，①属于自然条件。故选C。"
+                            }
+                        ]
+                    }
+                ]
+            };
+            initFromData(quizData);
+        }
+    }
+
+    function initFromData(data) {
+        // 计算总题目数量
+        totalQuestionsCount = 0;
+        data.groups.forEach(group => {
+            totalQuestionsCount += group.questions.length;
+        });
+        // 初始化状态数组
+        selectedState = new Array(totalQuestionsCount).fill(false);
+        userAnswers = new Array(totalQuestionsCount).fill(null);
+        // 渲染第一组第一题
+        currentGroupIndex = 0;
+        currentSubIndex = 0;
+        renderCurrentQuestion();
+        updateProgressBar();
+    }
+
+    function renderCurrentQuestion() {
+        if (!quizData) return;
+        const group = quizData.groups[currentGroupIndex];
+        const questionObj = group.questions[currentSubIndex];
+        // 更新图片: 图片地址 /data/ + 图片名
+        let imgSrc = `/data/${group.image}`;
+        // 如果图片不存在回退占位，但为了效果使用默认样式
+        topicImage.src = imgSrc;
+        topicImage.alt = group.image_alt || "题目配图";
+        topicImage.onerror = () => { topicImage.src = "https://placehold.co/600x300/1f2a36/e6b422?text=Europe+Map"; };
+        
+        // 渲染题干和选项
+        let html = `<div class="question-title"><i class="fas fa-map-marked-alt"></i> 侦探谜题 ${getGlobalQuestionIndex()+1}</div>`;
+        html += `<div class="question-stem">${questionObj.text}</div>`;
+        html += `<div class="options" id="optionsContainer">`;
+        questionObj.options.forEach((opt, idx) => {
+            const letter = String.fromCharCode(65+idx);
+            html += `
+                <div class="opt-item" data-opt-value="${letter}" data-opt-letter="${letter}">
+                    <span class="opt-prefix">${letter}</span>
+                    <span>${opt}</span>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        questionTextPanel.innerHTML = html;
+        
+        // 绑定选项点击事件
+        const optDivs = document.querySelectorAll('.opt-item');
+        const globalQIndex = getGlobalQuestionIndex();
+        const alreadySelected = selectedState[globalQIndex];
+        
+        if (alreadySelected) {
+            // 如果已经作答，禁止再选，并高亮之前的选择
+            disableOptions(true);
+            const userAnswerLetter = userAnswers[globalQIndex];
+            if (userAnswerLetter) {
+                highlightSelectedOption(userAnswerLetter, questionObj.answer);
+            }
+            // 右侧显示解析
+            displayAnalysis(questionObj, userAnswerLetter);
+        } else {
+            disableOptions(false);
+            optDivs.forEach(opt => {
+                opt.classList.remove('selected-correct', 'selected-wrong');
+                opt.addEventListener('click', (e) => {
+                    if (selectedState[globalQIndex]) return;
+                    const selectedLetter = opt.getAttribute('data-opt-value');
+                    const isCorrect = (selectedLetter === questionObj.answer);
+                    // 记录答案
+                    userAnswers[globalQIndex] = selectedLetter;
+                    selectedState[globalQIndex] = true;
+                    // 高亮正确/错误样式
+                    highlightSelectedOption(selectedLetter, questionObj.answer);
+                    disableOptions(true);
+                    // 右侧展示解析
+                    displayAnalysis(questionObj, selectedLetter);
+                    updateProgressBar();
+                });
+            });
+        }
+        // 确保解析区域未作答时显示等待消息，如果已作答刷新解析
+        if (selectedState[getGlobalQuestionIndex()]) {
+            displayAnalysis(questionObj, userAnswers[getGlobalQuestionIndex()]);
+        } else {
+            analysisTextDiv.innerHTML = `✨ 请选择一个选项，魔法解析将会出现 ✨<br><i class="fas fa-train"></i> 中欧班列带你破解地理谜题。`;
+        }
+    }
+    
+    function highlightSelectedOption(selectedLetter, correctLetter) {
+        const allOpts = document.querySelectorAll('.opt-item');
+        allOpts.forEach(opt => {
+            const val = opt.getAttribute('data-opt-value');
+            if (val === selectedLetter) {
+                if (val === correctLetter) {
+                    opt.classList.add('selected-correct');
+                } else {
+                    opt.classList.add('selected-wrong');
+                }
+            }
+            if (val === correctLetter && val !== selectedLetter) {
+                // 显示正确选项背景（可选淡绿）
+                opt.style.border = "2px solid #b9f6a5";
+            }
+        });
+    }
+    
+    function disableOptions(disabled) {
+        const opts = document.querySelectorAll('.opt-item');
+        opts.forEach(opt => {
+            if (disabled) {
+                opt.style.pointerEvents = 'none';
+                opt.classList.add('disabled-click');
+            } else {
+                opt.style.pointerEvents = 'auto';
+                opt.classList.remove('disabled-click');
+            }
+        });
+    }
+    
+    function displayAnalysis(questionObj, selectedLetter) {
+        const isCorrect = (selectedLetter === questionObj.answer);
+        const correctAnswerLetter = questionObj.answer;
+        // 找出正确选项完整文本
+        let correctAnswerText = "";
+        if (questionObj.options) {
+            const idx = correctAnswerLetter.charCodeAt(0) - 65;
+            if (questionObj.options[idx]) correctAnswerText = questionObj.options[idx];
+        }
+        let selectedText = "";
+        if (selectedLetter) {
+            const sIdx = selectedLetter.charCodeAt(0) - 65;
+            if (questionObj.options[sIdx]) selectedText = questionObj.options[sIdx];
+        }
+        const magicHtml = `
+            <div style="margin-bottom: 12px;">
+                <i class="fas ${isCorrect ? 'fa-check-circle correct-badge' : 'fa-times-circle wrong-badge'}"></i>
+                <strong style="color:${isCorrect ? '#c3e88d' : '#ffa48e'}"> ${isCorrect ? '✓ 侦探正确' : '✗ 推理偏差'}</strong>
+                <span style="float:right;">正确答案: ${correctAnswerLetter}. ${correctAnswerText}</span>
+            </div>
+            <div style="margin: 12px 0; padding: 8px 0; border-top: 1px dashed #e6b42240;">
+                <i class="fas fa-brain"></i> <strong>魔法解析</strong><br>${questionObj.explanation}
+            </div>
+            <div class="correct-hint" style="background:#1f2a1e; border-radius: 24px; padding: 12px; margin-top: 10px;">
+                <i class="fas fa-graduation-cap"></i> 你的选择: ${selectedLetter}. ${selectedText}<br>
+                <i class="fas fa-route"></i> 欧陆知识卡: ${isCorrect ? "干得漂亮！" : "仔细推敲自然条件与社会经济差异"}
+            </div>
+        `;
+        analysisTextDiv.innerHTML = magicHtml;
+    }
+    
+    function getGlobalQuestionIndex() {
+        let idx = 0;
+        for (let g = 0; g < currentGroupIndex; g++) {
+            idx += quizData.groups[g].questions.length;
+        }
+        idx += currentSubIndex;
+        return idx;
+    }
+    
+    function updateProgressBar() {
+        const answeredCount = selectedState.filter(v => v === true).length;
+        const percent = (answeredCount / totalQuestionsCount) * 100;
+        progressFillBar.style.width = `${percent}%`;
+        progressFractionSpan.innerText = `第${Math.min(answeredCount+1, totalQuestionsCount)} / 共${totalQuestionsCount}题`;
+        // 额外控制下一题按钮文本
+        const globalIdx = getGlobalQuestionIndex();
+        if (globalIdx + 1 === totalQuestionsCount) {
+            nextBtn.innerHTML = '<i class="fas fa-trophy"></i> 完成闯关  🎉';
+        } else {
+            nextBtn.innerHTML = '<i class="fas fa-arrow-right"></i> 下一题 →';
+        }
+    }
+    
+    // 下一题逻辑：组内+1，若组内题目结束则切换下一组图片并重置子题索引
+    function nextQuestion() {
+        if (!quizData) return;
+        const currentGroup = quizData.groups[currentGroupIndex];
+        const totalInGroup = currentGroup.questions.length;
+        // 判断当前是否已经作答当前题目？若未作答禁止跳题（优雅提醒）
+        const globalQIdx = getGlobalQuestionIndex();
+        if (!selectedState[globalQIdx]) {
+            analysisTextDiv.innerHTML = `⚠️ 侦探请先完成当前题目，再继续前进！ ⚠️<br><i class="fas fa-hourglass-half"></i> 选择答案后解析自动出现。`;
+            return;
+        }
+        // 判断是否为当前组的最后一个
+        if (currentSubIndex + 1 < totalInGroup) {
+            // 同组下一题，图片保留
+            currentSubIndex++;
+            renderCurrentQuestion();
+        } else {
+            // 下一组
+            if (currentGroupIndex + 1 < quizData.groups.length) {
+                currentGroupIndex++;
+                currentSubIndex = 0;
+                renderCurrentQuestion();
+            } else {
+                // 已完成所有题目
+                analysisTextDiv.innerHTML = `<i class="fas fa-crown"></i> 🎉 恭喜侦探完成所有亚欧大陆桥谜题！ 🎉 <br> 乳畜业+中欧班列知识已掌握 ✨`;
+                nextBtn.disabled = true;
+                nextBtn.style.opacity = 0.5;
+                nextBtn.style.pointerEvents = 'none';
+                return;
+            }
+        }
+        updateProgressBar();
+    }
+    
+    nextBtn.addEventListener('click', nextQuestion);
+    
+    // 启动加载
+    loadQuizData();
+</script>
+</body>
+</html>
